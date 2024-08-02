@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import { Login } from './components/login/Login';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HomePage } from './components/homePage/HomePage';
+import { User } from './interface/User';
 
 function App() {
+
+  const [user, setUser] = useState<User | null>(null);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login 
+                                          user={user} 
+                                          setUser={setUser}
+                                        /> } />
+                                      
+        <Route path="/home" element={<HomePage
+                                     user={user}
+                                     setUser={setUser}
+                                    /> } />
+
+
+        <Route path='/*' element={<h1>404! Page Not Found</h1>} />
+      </Routes>
+    </BrowserRouter>
+   </>
   );
 }
 
