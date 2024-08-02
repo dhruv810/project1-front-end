@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 export const Login: React.FC<LoginProps> = ({ setUser }) => {
     const [username, setUsername] = useState<String>("");
     const [password, setPassword] = useState<String>("");
+    const [firstname, setFirstName] = useState<String>("");
+    const [lastname, setLastName] = useState<String>("");
+    const [role, setRole] = useState<String>("");
 
     const navigate = useNavigate();
 
@@ -26,6 +29,7 @@ export const Login: React.FC<LoginProps> = ({ setUser }) => {
             navigate("/home");
         })
         .catch((err) => {
+            // console.log(err);
             alert("Error: " + err.response.data);
         });
     }
@@ -48,9 +52,11 @@ export const Login: React.FC<LoginProps> = ({ setUser }) => {
                     onChange={(e) => setPassword(e.target.value)}
                     />
                 <br />
-                <button onClick={performLogIn}>Login</button>
+                <div className="btndiv">
+                    <button onClick={performLogIn}>login</button>
+                    <button onClick={()=>{navigate('/create-account')}}>create new account</button>
+                </div>
             </div>
-            
         </div>
     )
 }

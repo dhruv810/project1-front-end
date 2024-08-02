@@ -1,0 +1,22 @@
+
+#description { 
+    height:200px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.editdiv {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    height: fit-content;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgb(0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+button {
+    margin: 10px;
+}

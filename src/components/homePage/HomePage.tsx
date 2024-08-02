@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ReimbursementView } from "../reimbursementView/ReimbursementView";
 import { Reimbursement } from "../../interface/Reimbursement";
 import api from "../apiConfig/axiosConfig";
+import "./HomePage.css"
 
 export const HomePage: React.FC<LoginProps> = ({user, setUser}) => {
 
@@ -12,17 +13,22 @@ export const HomePage: React.FC<LoginProps> = ({user, setUser}) => {
     const [reimbursementList, setReimbursementList] = useState<Reimbursement[]>([]);
 
     useEffect(() => {
-        console.log(user);
         if(user === null) {
-            console.log("not loggedin, moving to '/login'");
-            navigate('/login');
+            api.get("/auth/user")
+            .then((res) => {
+                setUser(res.data);
+            })
+            .catch((err) => {
+                console.log("not loggedin, moving to '/login'");
+                navigate('/login');
+            } )
         }
-        getReiembursement();
+        getAllReiembursement();
 
-    }, [navigate, user])
+    }, [user])
     
-    function getReiembursement() : void {
-        api.get("/reimbursements/pending/all")
+    function getAllReiembursement() : Reimbursement[] {
+        api.get("/user/reimbursement")
         .then((res) => {
             console.log(res.data);
             setReimbursementList(res.data);
@@ -30,23 +36,45 @@ export const HomePage: React.FC<LoginProps> = ({user, setUser}) => {
         .catch((err) => {
             alert("Error: " + err.response.data);
         });
+        return reimbursementList;
         
     }
 
+    function getPendingReiembursement() : void {
+        api.get("/user/reimbursement/pending")
+        .then((res) => {
+            console.log(res.data);
+            setReimbursementList(res.data);
+        })
+        .catch((err) => {
+            alert("Error: " + err.response.data);
+        });
+    }
 
+    function goToManagerView() {
+        navigate("/manager", {state: {user: user, setUser: setUser}});
+    }
+ 
     return (
-        <div>
+        <div className="homeOuter">
             <div>
                 <UserView user={user} setUser={setUser} />
-            </div>
-            <div>
-                <h1>Reimbursement</h1>
-                <div>
-                    <button>ALL</button>
-                    <button>PENDING</button>
+                <div className="reimbursementButton">
+                    <button onClick={() => navigate('/create-reimbursement')}>Create Reimbursement</button>
+                    {
+                        user?.role === "MANAGER" ?
+                        <button onClick={goToManagerView}>Manager View</button> :""
+                    }
                 </div>
-                <ReimbursementView reimbursements={reimbursementList}/>
 
+            </div>
+            <div className="homeInner">
+                <h1>Reimbursement List</h1>
+                <div>
+                    <button onClick={getAllReiembursement}>ALL</button>
+                    <button onClick={getPendingReiembursement}>PENDING</button>
+                </div>
+                <ReimbursementView user={user} reimbursements={reimbursementList} setReimbursementList={setReimbursementList} />
             </div>
         </div>
     )

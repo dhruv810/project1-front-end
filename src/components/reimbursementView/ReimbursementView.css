@@ -1,0 +1,39 @@
+
+.reimbursementList {
+    padding: 10px;
+    display: flex;
+    flex-direction: column-reverse;
+    /* height: fit-content;
+    width: fit-content;
+    background-color: #f0f0f068;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0.1); */
+}
+
+.reimbursement {
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    width: 90%;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0.1);
+}
+
+li {
+    padding: 2px;
+}
+
+lu {
+    padding: 2px;
+}
+
+.inDivBtns {
+    display: flex;
+    justify-content: center;
+    
+}

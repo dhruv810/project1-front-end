@@ -4,6 +4,10 @@ import { Login } from './components/login/Login';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HomePage } from './components/homePage/HomePage';
 import { User } from './interface/User';
+import { CreateReimbursement } from './components/reimbursementView/createReimbursement/CreateReimbursement';
+import { CreateAccount } from './components/login/creteAccount/CreateAccount';
+import { EditReimbursement } from './components/reimbursementView/editReimbursement/EditReimbursement';
+import { ManagerView } from './components/reimbursementView/managerView/ManagerView';
 
 function App() {
 
@@ -22,6 +26,10 @@ function App() {
                                      setUser={setUser}
                                     /> } />
 
+        <Route path="/create-reimbursement" element={<CreateReimbursement/>} />
+        <Route path="/create-account" element={<CreateAccount/>} />
+        <Route path="/description" element={<EditReimbursement/>} />
+        <Route path="/manager" element={<ManagerView/>} />
 
         <Route path='/*' element={<h1>404! Page Not Found</h1>} />
       </Routes>
