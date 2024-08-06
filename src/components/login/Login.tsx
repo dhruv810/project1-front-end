@@ -7,14 +7,11 @@ import { useNavigate } from "react-router-dom";
 export const Login: React.FC<LoginProps> = ({ setUser }) => {
     const [username, setUsername] = useState<String>("");
     const [password, setPassword] = useState<String>("");
-    const [firstname, setFirstName] = useState<String>("");
-    const [lastname, setLastName] = useState<String>("");
-    const [role, setRole] = useState<String>("");
-
+    
     const navigate = useNavigate();
 
     const performLogIn = async () => {
-        if (username === "" || password === "") {
+        if (username.trim() === "" || password.trim() === "") {
             alert("Please fill in all fields");
             return;
         }
@@ -35,7 +32,8 @@ export const Login: React.FC<LoginProps> = ({ setUser }) => {
     }
 
     return (
-        <div className="login">
+       <div id="outer">
+       <div className="login">
             <h1>Log In</h1>
             <div className="form">
                 <input 
@@ -58,5 +56,6 @@ export const Login: React.FC<LoginProps> = ({ setUser }) => {
                 </div>
             </div>
         </div>
+        </div> 
     )
 }

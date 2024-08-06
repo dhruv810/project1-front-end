@@ -7,7 +7,8 @@ import { User } from './interface/User';
 import { CreateReimbursement } from './components/reimbursementView/createReimbursement/CreateReimbursement';
 import { CreateAccount } from './components/login/creteAccount/CreateAccount';
 import { EditReimbursement } from './components/reimbursementView/editReimbursement/EditReimbursement';
-import { ManagerView } from './components/reimbursementView/managerView/ManagerView';
+import { ManagerReimbusementView } from './components/reimbursementView/managerView/ManagerReimbusementView';
+import { ManagerUserView } from './components/userView/ManagerUserView/ManagerUserView';
 
 function App() {
 
@@ -29,7 +30,8 @@ function App() {
         <Route path="/create-reimbursement" element={<CreateReimbursement/>} />
         <Route path="/create-account" element={<CreateAccount/>} />
         <Route path="/description" element={<EditReimbursement/>} />
-        <Route path="/manager" element={<ManagerView/>} />
+        <Route path="/manager" element={<ManagerReimbusementView/>} />
+        <Route path="/manage-user" element={<ManagerUserView/>} />
 
         <Route path='/*' element={<h1>404! Page Not Found</h1>} />
       </Routes>

@@ -14,6 +14,11 @@ export const CreateAccount = () => {
     const navigate = useNavigate();
 
     const registerAccount = async () => {
+        if (username.length < 5 || password.length < 5 || firstname.length < 1 || lastname.length < 1) {
+            alert("Please enter all fields");
+            return;
+        }
+
         await api.post("/register", {
             "username": username,
             "password": password,
@@ -32,6 +37,7 @@ export const CreateAccount = () => {
     }
 
     return (
+        <div id="outer">
         <div className="create-account">
             <h1>Create Account</h1>
             <div className="form">
@@ -67,6 +73,7 @@ export const CreateAccount = () => {
                 </div>
             </div>
 
+        </div>
         </div>
     );
 

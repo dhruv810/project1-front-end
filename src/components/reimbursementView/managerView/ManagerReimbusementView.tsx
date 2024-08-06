@@ -1,15 +1,14 @@
-import { useLocation, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { User } from "../../../interface/User";
 import { useEffect, useState } from "react";
 import { Reimbursement } from "../../../interface/Reimbursement";
 import { ReimbursementView } from "../ReimbursementView";
 import api from "../../apiConfig/axiosConfig";
-import "./ManagerView.css"
+import "./ManagerReimbursementView.css"
 
-export const ManagerView: React.FC = () => {
-    const location = useLocation();
-    const manager: User = location.state.user;
-    const setUser = location.state.setUser;
+export const ManagerReimbusementView: React.FC = () => { 
+
+    const [manager, setManager] = useState<User | null>(null);
     const [reimbursements, setReimbursementList] = useState<Reimbursement[]>([]);
     const navigate = useNavigate();
 
@@ -17,7 +16,7 @@ export const ManagerView: React.FC = () => {
         if(manager === null) {
             api.get("/auth/user")
             .then((res) => {
-                setUser(res.data);
+                setManager(res.data);
             })
             .catch((err) => {
                 console.log("not loggedin, moving to '/login'");

@@ -36,11 +36,14 @@ export const ReimbursementView: React.FC<temp> = ( {reimbursements, setReimburse
             { reimbursements.length === 0? (<p>No Reimbursements</p>):
                 (reimbursements.map((reimbursement, index) => (
                 <div className="reimbursement" key={index}>
-                        <li>Reim Id: {reimbursement.reimId}</li>
-                        <li>User: {reimbursement.user?.username}</li>
+                        {/* <li>Reim Id: {reimbursement.reimId}</li> */}
+                        <li>Posted By: {reimbursement.user?.username}</li>
                         <li>Status: {reimbursement.status}</li>
                         <li>Amount: {reimbursement.amount?.toString()}</li>
-                        <li>Description: {reimbursement.description}</li>
+                        <li>Description:</li>
+                        <div id="labelView">
+                        <label>{reimbursement.description}</label>
+                        </div>
                         <div className="inDivBtns">
                             {   (user?.role !== "MANAGER" || reimbursement.status !== "PENDING")?"":
                                 (<div>

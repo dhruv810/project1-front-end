@@ -12,7 +12,6 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0);
-    margin-top: 5%;
 }
 
 .form {
@@ -33,4 +32,13 @@
 
 button {
     margin: 10px;
+}
+
+#outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    height: 100%;
+    width: 100%;
 }

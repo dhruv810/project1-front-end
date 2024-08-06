@@ -3,10 +3,17 @@
     flex-direction: row;
     width: 100%;
     height: 100%;
-    padding: 10px;
-    margin: 10px;
-    
+    /* padding: 10px;
+    margin: 10px; */
 }
+
+#temp {
+    padding: 2%;
+    width: fit-content;
+    height: fit-content;
+
+}
+
 
 .homeInner {
     display: flex;
@@ -28,11 +35,16 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0.1);
-    
+   
 }
 
 @media only screen and (max-width: 500px) {
     .homeOuter {
         flex-direction: column;
-    }    
+        align-items: center;
+
+    }
+    
+    
+    
 }
