@@ -15,6 +15,7 @@ export const Login: React.FC = () => {
             navigate("/home");
             return;
         }
+        console.log("Getting user");
         api.get("/auth/user")
             .then((res) => {
                 globalState.loggedInUser = res.data;
@@ -22,9 +23,9 @@ export const Login: React.FC = () => {
                 return;
             })
             .catch((err) => {
-                
+                // alert("Error: " + err.response.data);
             })
-    }, [])
+    }, []);
 
     const performLogIn = async () => {
         if (username.trim() === "" || password.trim() === "") {
