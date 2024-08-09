@@ -28,7 +28,7 @@ export const ManagerReimbusementView: React.FC = () => {
 
     return (
         <>
-            <button onClick={()=>{navigate("/home")}}>X</button>
+            <button onClick={()=>{globalState.isPendingView=false; navigate("/home")}}>X</button>
             <div className="outter">
                 <ReimbursementView managerView={true}/>
                 

@@ -7,5 +7,6 @@ export const globalState: any = {
         lastName: "",
         username: "",
         role: ""
-    } as User
+    } as User,
+    isPendingView: false
 }

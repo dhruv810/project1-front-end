@@ -12,7 +12,7 @@ interface temp {
 
 export const ReimbursementView: React.FC<temp> = ({ managerView}) => {
 
-    const [viewPending, setViewPending] = useState<boolean>(false);
+    const [viewPending, setViewPending] = useState<boolean>(globalState.isPendingView);
     const [reimbursementList, setReimbursementList] = useState<Reimbursement[]>([]);
 
     useEffect(() => {
@@ -92,8 +92,8 @@ export const ReimbursementView: React.FC<temp> = ({ managerView}) => {
         <div className="container">
             <h1>Reimbursement List</h1>
             <div>
-                <button onClick={()=> {setViewPending(false)}}>ALL</button>
-                <button onClick={()=> {setViewPending(true)}}>ALL PENDING</button>
+                <button onClick={()=> {setViewPending(false); globalState.isPendingView=false;}}>ALL</button>
+                <button onClick={()=> {setViewPending(true); globalState.isPendingView=true;}}>ALL PENDING</button>
             </div>
             <div className="reimbursementList">
                 

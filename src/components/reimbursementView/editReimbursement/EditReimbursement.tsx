@@ -40,6 +40,7 @@ export const EditReimbursement = () => {
                     />
             </div>
             <button onClick={submitChanges}>Submit changes</button>
+            <button onClick={()=>navigate("/home")}>Cancel</button>
         </div>
     );
 

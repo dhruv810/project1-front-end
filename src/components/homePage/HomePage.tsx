@@ -36,6 +36,7 @@ export const HomePage: React.FC = () => {
     }, []);
 
     function goToManagerView(): void {
+        globalState.isPendingView = false;
         navigate("/manager");
     }
 
