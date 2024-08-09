@@ -10,7 +10,7 @@ import { User } from "../../interface/User";
 export const HomePage: React.FC = () => {
 
     const navigate = useNavigate();
-    const [user, setUser] = useState<User>();
+    const [user, setUser] = useState<User>(globalState.loggedInUser);
 
     useEffect(() => {
         // setTimeout(()=> {
@@ -33,7 +33,7 @@ export const HomePage: React.FC = () => {
         }
         tmp();
        
-    }, []);
+    }, [user]);
 
     function goToManagerView(): void {
         globalState.isPendingView = false;

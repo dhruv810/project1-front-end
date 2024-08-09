@@ -53,6 +53,7 @@ export const CreateReimbursement: React.FC<any> = () => {
                     />
                 </div>
                 <button onClick={postReimbursement}>Submit</button>
+                <button onClick={()=>navigate("/home")}>Cancel</button>
                 
             </div>
         </div>

@@ -52,10 +52,18 @@ export const ReimbursementView: React.FC<temp> = ({ managerView}) => {
     async function getReimbursements() {
         let url = "";
         if (viewPending) {
-            url = "/user/reimbursement/pending";
+            if (managerView) {   
+                url = "reimbursements/pending/all";
+            }else {
+                url = "/user/reimbursement/pending";
+            }
         }
         else {
-            url = "/user/reimbursement";
+            if (managerView) {
+                url = "/reimbursements/all";
+            }else {
+                url = "/user/reimbursement";
+            }
         }
         await api.get(url)
         .then((res) => {
@@ -67,21 +75,6 @@ export const ReimbursementView: React.FC<temp> = ({ managerView}) => {
         });
 
     }
-
-    // async function getAllReiembursement() {
-        
-    // }
-
-    // async function getPendingReiembursement() {
-    //     await api.get("/user/reimbursement/pending")
-    //     .then((res) => {
-    //         console.log(res.data);
-    //         setReimbursementList(res.data);
-    //     })
-    //     .catch((err) => {
-    //         alert("Error: " + err.response.data);
-    //     });
-    // }
 
     const navigate = useNavigate();
     const changeDescription = (reimbursemnt: Reimbursement) => {

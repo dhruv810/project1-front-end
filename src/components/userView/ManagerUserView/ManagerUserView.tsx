@@ -44,6 +44,10 @@ export const ManagerUserView: React.FC = () => {
             alert("User Id not found");
             return;
         }
+        if (userId === globalState.loggedInUser.userId) {
+            alert("You cannot quit");
+            return;
+        }
         api.delete(`/user/${userId}`)
         .then((res) => {
             const newList = [...userList];
