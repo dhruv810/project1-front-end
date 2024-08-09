@@ -16,6 +16,7 @@ export const ManagerReimbusementView: React.FC = () => {
         if(manager === null) {
             api.get("/auth/user")
             .then((res) => {
+                globalState.loggedInUser = res.data;
                 setManager(res.data);
             })
             .catch((err) => {

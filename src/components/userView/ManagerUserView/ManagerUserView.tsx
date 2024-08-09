@@ -9,28 +9,31 @@ import { globalState } from "../../../state/globalState";
 export const ManagerUserView: React.FC = () => {
     const [userList, setUserList] = useState<User[]>([]);
     const navigate = useNavigate();
+
     useEffect(()=> {
-        if(globalState.loggedInUser.userId !== null) {
-            if (globalState.loggedInUser?.role !== "MANAGER") {
-                alert("You are not a manager");
-                return;
-            }
-        }
-        api.get("/auth/user")
-            .then((res) => {    
+        if (globalState.loggedInUser.userId === null) {
+            api.get("/auth/user")
+            .then((res) => {
+                console.log(res.data);
                 globalState.loggedInUser = res.data;
             })
             .catch((err) => {
-                console.log("not loggedin, moving to '/login'");
                 navigate('/login');
+                return;
             } )
+        }
 
+        if (globalState.loggedInUser?.role !== "MANAGER") {
+            alert("you are not a manager");
+            navigate('/home');
+        }
+        
         getAllUsers();
 
     }, []);
 
-    function getAllUsers(): void {
-        api.get("/users")
+    async function getAllUsers() {
+        await api.get("/users")
         .then((res) => {
             setUserList(res.data);
         })
