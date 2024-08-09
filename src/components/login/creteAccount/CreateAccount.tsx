@@ -1,5 +1,5 @@
 import "./createAccount.css"
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../apiConfig/axiosConfig";
 
@@ -8,7 +8,7 @@ export const CreateAccount = () => {
     const [password, setPassword] = useState<String>("");
     const [firstname, setFirstname] = useState<String>("");
     const [lastname, setLastname] = useState<String>("");
-    const [role, setRole] = useState<String>("");
+    const [role, setRole] = useState<String>("EMPLOYEE");
     
 
     const navigate = useNavigate();
@@ -36,6 +36,10 @@ export const CreateAccount = () => {
         })
     }
 
+    function changeRole(event: ChangeEvent<HTMLSelectElement>): void {
+        setRole(event.target.value);
+    }
+
     return (
         <div id="outer">
         <div className="create-account">
@@ -61,11 +65,14 @@ export const CreateAccount = () => {
                     placeholder="Last Name"
                     value={lastname?.toString()}
                     onChange={(e) => setLastname(e.target.value)} />
-                <input 
-                    type="text"
-                    placeholder="Role"
-                    value={role?.toString()}
-                    onChange={(e) => setRole(e.target.value)} />
+                <select id="role" onChange={changeRole} defaultValue={'EMPLOYEE'}>
+                    <option value="EMPLOYEE">Employee</option>
+                    <option value="MANAGER">Manager</option>
+                </select>
+                {
+                    role === '' &&
+                    <p>Please select valid role</p>
+                }
 
                 <div className="btndiv">
                     <button onClick={registerAccount}>create account</button>

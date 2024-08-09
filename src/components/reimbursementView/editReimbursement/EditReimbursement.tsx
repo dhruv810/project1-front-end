@@ -29,7 +29,7 @@ export const EditReimbursement = () => {
     }
 
     return (
-        <div>
+        <div className="outer">
             <h1>Edit Reimbursement</h1>
             <div className="editdiv">
                 <label>Description:</label>

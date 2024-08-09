@@ -4,21 +4,21 @@ import { UUID } from "crypto";
 import api from "../../apiConfig/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import "./ManageruserView.css"
+import { globalState } from "../../../state/globalState";
 
 export const ManagerUserView: React.FC = () => {
-    const [manager, setManager] = useState<User | null>(null);
     const [userList, setUserList] = useState<User[]>([]);
     const navigate = useNavigate();
     useEffect(()=> {
-        if(manager !== null) {
-            if (manager?.role !== "MANAGER") {
-                navigate("/login");
+        if(globalState.loggedInUser.userId !== null) {
+            if (globalState.loggedInUser?.role !== "MANAGER") {
+                alert("You are not a manager");
+                return;
             }
-            return;
         }
         api.get("/auth/user")
             .then((res) => {    
-                setManager(res.data);
+                globalState.loggedInUser = res.data;
             })
             .catch((err) => {
                 console.log("not loggedin, moving to '/login'");
@@ -27,7 +27,7 @@ export const ManagerUserView: React.FC = () => {
 
         getAllUsers();
 
-    }, [manager]);
+    }, []);
 
     function getAllUsers(): void {
         api.get("/users")
@@ -39,7 +39,7 @@ export const ManagerUserView: React.FC = () => {
         })
     }
 
-    function fireUser(userId: UUID | undefined, index: number): void {
+    function fireUser(userId: UUID | undefined | null, index: number): void {
         if (typeof userId === "undefined") {
             alert("User Id not found");
             return;
@@ -55,7 +55,7 @@ export const ManagerUserView: React.FC = () => {
         });
     }
 
-    function promoteUser(userId: UUID | undefined): void {
+    function promoteUser(userId: UUID | undefined | null): void {
         api.patch(`/promote/${userId}`)
         .then((res) => {
             const newList = [...userList];
@@ -71,7 +71,9 @@ export const ManagerUserView: React.FC = () => {
     }
 
     return (
-        <div id="outer">
+        <>
+        <button onClick={()=>{navigate("/home")}}>X</button>
+            <div id="outer">
             <h1>Manager User View</h1>
             <div className="userList">
                 {
@@ -92,6 +94,7 @@ export const ManagerUserView: React.FC = () => {
                 }
             </div>
         </div>
+        </>
     )
 
 }

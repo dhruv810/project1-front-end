@@ -1,14 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./login.css"
 import api from "../apiConfig/axiosConfig";
-import { LoginProps } from "../../interface/LoginProps";
 import { useNavigate } from "react-router-dom";
-  
-export const Login: React.FC<LoginProps> = ({ setUser }) => {
+import { globalState } from "../../state/globalState";
+
+export const Login: React.FC = () => {
     const [username, setUsername] = useState<String>("");
     const [password, setPassword] = useState<String>("");
     
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (globalState.loggedInUser.userId !== null) {
+            navigate("/home");
+            return;
+        }
+        api.get("/auth/user")
+            .then((res) => {
+                globalState.loggedInUser = res.data;
+                navigate("/home");
+                return;
+            })
+            .catch((err) => {
+                
+            })
+    }, [])
 
     const performLogIn = async () => {
         if (username.trim() === "" || password.trim() === "") {
@@ -22,7 +38,7 @@ export const Login: React.FC<LoginProps> = ({ setUser }) => {
         })
         .then((res) => {
             console.log(res.data);
-            setUser(res.data);
+            globalState.loggedInUser = res.data;
             navigate("/home");
         })
         .catch((err) => {

@@ -1,0 +1,48 @@
+.outer {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: max-content;
+    height: fit-content;
+
+}
+
+#description { 
+    height:200px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.editdiv, .amountDiv {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgb(0, 0, 0.1);
+    background-color: #f9f9f9;
+    margin-top: 10px;
+}
+.amountDiv {
+    flex-direction: row;
+}
+
+input {
+    margin-left: 10px;
+}
+
+button {
+    margin: 10px;
+}

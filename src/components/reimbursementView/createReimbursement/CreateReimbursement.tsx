@@ -1,21 +1,24 @@
 import { useState } from "react";
 import api from "../../apiConfig/axiosConfig";
 import { useNavigate } from "react-router-dom";
+import "./createReimbursement.css";
+import { Button } from "react-bootstrap";
 
 
 export const CreateReimbursement: React.FC<any> = () => {
-    // "description": "fhushfusdhfih",
-    // "amount": 750.00,
-    // "status": "PENDING"
 
     const [description, setDescription] = useState<String>("");
-    const [amount, setAmount] = useState<number>(0.0);
+    const [amount, setAmount] = useState<number>(0);
     const status = "PENDING";
 
     const navigate = useNavigate();
 
-    const postReimbursement = () => {
-        api.post("reimbursement", {
+    const postReimbursement = async () => {
+        if (amount < 1) {
+            alert("Enter valid amount");
+            return;
+        }
+        await api.post("reimbursement", {
             "description": description,
             "amount": amount,
             "status": status
@@ -29,22 +32,28 @@ export const CreateReimbursement: React.FC<any> = () => {
     }
 
     return (
-        <div>
+        <div className="outer">
             <h1>Create Reimbursement</h1>
-            <div>
-                <input
-                    type="text"
+            <div className="inner">
+                <div className="amountDiv">
+                    <p>Amount:</p>
+                    <input id="amountInput"
+                        type="number"
+                        value={amount}
+                        onChange={(e) => setAmount(parseFloat(e.target.value))}
+                        placeholder="Amount"
+                    ></input>
+                </div>
+                <div className="editdiv">
+                <p>Description:</p>
+                <textarea id="description"
                     value={description.toString()}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Description"
-                ></input>
-                <input
-                    type="number"
-                    value={amount}
-                    onChange={(e) => setAmount(parseFloat(e.target.value))}
-                    placeholder="Amount"
-                ></input>
+                    placeholder=""
+                    />
+                </div>
                 <button onClick={postReimbursement}>Submit</button>
+                
             </div>
         </div>
     );

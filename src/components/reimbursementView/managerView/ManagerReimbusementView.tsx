@@ -19,13 +19,13 @@ export const ManagerReimbusementView: React.FC = () => {
                 setManager(res.data);
             })
             .catch((err) => {
-                console.log("not loggedin, moving to '/login'");
                 navigate('/login');
+                return;
             } )
         }
         getAllReiembursement();
         
-    }, [manager])
+    }, [])
 
     function getAllReiembursement() : void {
         api.get("reimbursements/all")
@@ -41,7 +41,6 @@ export const ManagerReimbusementView: React.FC = () => {
     function getPendingReiembursement() : void {
         api.get("/reimbursements/pending/all")
         .then((res) => {
-            console.log(res.data);
             setReimbursementList(res.data);
         })
         .catch((err) => {
@@ -49,17 +48,20 @@ export const ManagerReimbusementView: React.FC = () => {
         });
     }
 
-
     return (
-        <div className="outter">
-            <h1>Manager View</h1>
-            <div>
-                <button onClick={getAllReiembursement}>ALL</button>
-                <button onClick={getPendingReiembursement}>PENDING</button>
+        <>
+            <button onClick={()=>{navigate("/home")}}>X</button>
+            <div className="outter">
+                <h1>Manager View</h1>
+                <div>
+                    <button onClick={getAllReiembursement}>ALL</button>
+                    <button onClick={getPendingReiembursement}>PENDING</button>
+                </div>
+                <ReimbursementView reimbursements={reimbursements} setReimbursementList={setReimbursementList} user={manager}
+                managerView={true}/>
+                
             </div>
-            <ReimbursementView reimbursements={reimbursements} setReimbursementList={setReimbursementList} user={manager}/>
-            
-        </div>
+        </>
     )
 
 }

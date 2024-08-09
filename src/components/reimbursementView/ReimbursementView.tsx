@@ -9,16 +9,17 @@ interface temp {
     reimbursements: Reimbursement[]
     setReimbursementList: React.Dispatch<React.SetStateAction<Reimbursement[]>>;
     user: User | null;
+    managerView: boolean
 }
 
-export const ReimbursementView: React.FC<temp> = ( {reimbursements, setReimbursementList, user}) => {
+export const ReimbursementView: React.FC<temp> = ( {reimbursements, setReimbursementList, user, managerView}) => {
 
-    const updateStatus = (index: number, status: String, reim_id: UUID | undefined) => {
-        api.patch(`/reimbursements/resolve/${status}?reimbursement_id=${reim_id}`)
+    const updateStatus = async (index: number, status: String, reim_id: UUID | undefined) => {
+        await api.patch(`/reimbursements/resolve/${status}?reimbursement_id=${reim_id}`)
         .then((res) => {
             reimbursements[index] = res.data;
             setReimbursementList(reimbursements);
-            window.location.reload();
+            // window.location.reload();
         })
         .catch((err) => { 
             alert("Error: " + err?.response?.data);
@@ -36,29 +37,32 @@ export const ReimbursementView: React.FC<temp> = ( {reimbursements, setReimburse
             { reimbursements.length === 0? (<p>No Reimbursements</p>):
                 (reimbursements.map((reimbursement, index) => (
                 <div className="reimbursement" key={index}>
-                        {/* <li>Reim Id: {reimbursement.reimId}</li> */}
+                    <ul key={index}>
                         <li>Posted By: {reimbursement.user?.username}</li>
                         <li>Status: {reimbursement.status}</li>
                         <li>Amount: {reimbursement.amount?.toString()}</li>
-                        <li>Description:</li>
+                    </ul>
+                        <p>Description:</p>
                         <div id="labelView">
                         <label>{reimbursement.description}</label>
                         </div>
+                    
                         <div className="inDivBtns">
-                            {   (user?.role !== "MANAGER" || reimbursement.status !== "PENDING")?"":
+                            {   (user?.role !== "MANAGER" || !managerView || reimbursement.status !== "PENDING")?"":
                                 (<div>
                                 <button onClick={()=>{updateStatus(index, "APPROVED", reimbursement?.reimId)}}>APPROVE</button>
                                 <button onClick={()=>{updateStatus(index, "REJECTED", reimbursement?.reimId)}}>REJECT</button>
                             </div>)
                             }
                             {
-                                (reimbursement?.status === "PENDING" && reimbursement?.user?.userId === user?.userId)?
+                                (reimbursement?.status === "PENDING" && !managerView && reimbursement?.user?.userId === user?.userId)?
                                 <div>
                                     <button onClick={()=>{changeDescription(reimbursement)}}>EDIT</button>
                                 </div>
                                 :""
                             }
                         </div>
+                        
                     </div>
                     
                 )))

@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
 import './App.css';
 import { Login } from './components/login/Login';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HomePage } from './components/homePage/HomePage';
-import { User } from './interface/User';
+
 import { CreateReimbursement } from './components/reimbursementView/createReimbursement/CreateReimbursement';
 import { CreateAccount } from './components/login/creteAccount/CreateAccount';
 import { EditReimbursement } from './components/reimbursementView/editReimbursement/EditReimbursement';
@@ -12,20 +11,13 @@ import { ManagerUserView } from './components/userView/ManagerUserView/ManagerUs
 
 function App() {
 
-  const [user, setUser] = useState<User | null>(null);
   return (
    <>
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login 
-                                          user={user} 
-                                          setUser={setUser}
-                                        /> } />
+        <Route path="/login" element={<Login /> } />
                                       
-        <Route path="/home" element={<HomePage
-                                     user={user}
-                                     setUser={setUser}
-                                    /> } />
+        <Route path="/home" element={<HomePage /> } />
 
         <Route path="/create-reimbursement" element={<CreateReimbursement/>} />
         <Route path="/create-account" element={<CreateAccount/>} />

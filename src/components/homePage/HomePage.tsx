@@ -1,31 +1,35 @@
 import { useNavigate } from "react-router-dom";
-import { LoginProps } from "../../interface/LoginProps";
-import { UserView } from "../userView/UserView";
 import { useEffect, useState } from "react";
 import { ReimbursementView } from "../reimbursementView/ReimbursementView";
 import { Reimbursement } from "../../interface/Reimbursement";
 import api from "../apiConfig/axiosConfig";
 import "./HomePage.css"
+import { UserView } from "../userView/UserView";
+import { globalState } from "../../state/globalState";
 
-export const HomePage: React.FC<LoginProps> = ({user, setUser}) => {
+export const HomePage: React.FC = () => {
 
     const navigate = useNavigate();
     const [reimbursementList, setReimbursementList] = useState<Reimbursement[]>([]);
 
     useEffect(() => {
-        if(user === null) {
+        if(globalState.loggedInUser.userId === null) {
             api.get("/auth/user")
             .then((res) => {
-                setUser(res.data);
+                console.log(res.data);
+                console.log("***********");
+                console.log(globalState.loggedInUser);
+                globalState.loggedInUser = res.data;
+                return;
             })
             .catch((err) => {
-                console.log("not loggedin, moving to '/login'");
                 navigate('/login');
             } )
         }
+
         getAllReiembursement();
 
-    }, [user])
+    }, [])
     
     async function getAllReiembursement() {
         await api.get("/user/reimbursement")
@@ -35,9 +39,8 @@ export const HomePage: React.FC<LoginProps> = ({user, setUser}) => {
         })
         .catch((err) => {
             alert("Error: " + err.response.data);
+            return;
         });
-        return reimbursementList;
-        
     }
 
     function getPendingReiembursement() : void {
@@ -62,15 +65,15 @@ export const HomePage: React.FC<LoginProps> = ({user, setUser}) => {
     return (
         <div className="homeOuter">
                 <div id="temp">
-                    <UserView user={user} setUser={setUser} />
+                    <UserView />
                     <div className="reimbursementButton">
                         <button onClick={() => navigate('/create-reimbursement')}>Create Reimbursement</button>
                         {
-                            user?.role === "MANAGER" ?
+                            globalState.loggedInUser?.role === "MANAGER" ?
                             <button onClick={goToManagerView}>Manage reimbursement</button> :""
                         }
                         {
-                            user?.role === "MANAGER" ?
+                            globalState.loggedInUser?.role === "MANAGER" ?
                             <button onClick={goToUserView}>Manage users</button> :""
                         }
                     </div>
@@ -82,7 +85,7 @@ export const HomePage: React.FC<LoginProps> = ({user, setUser}) => {
                     <button onClick={getAllReiembursement}>ALL</button>
                     <button onClick={getPendingReiembursement}>ALL PENDING</button>
                 </div>
-                <ReimbursementView user={user} reimbursements={reimbursementList} setReimbursementList={setReimbursementList} />
+                <ReimbursementView user={globalState.loggedInUser} reimbursements={reimbursementList} setReimbursementList={setReimbursementList} managerView={false}/>
             </div>
         </div>
     )
